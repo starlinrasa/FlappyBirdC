@@ -65,6 +65,12 @@ posObjet[i].x -=globall.vitesse;
 ///////////////////////////////////////////////////
 
 
+A faire 2:
+Il y a un probleme de detection de la collision,
+il faut chercher les erreurs et les corriger
+
+MODIF 2:
+	  bonus=2;->bonus=0;
 
 
 A faire 3:
