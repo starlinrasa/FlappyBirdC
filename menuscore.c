@@ -6,7 +6,9 @@ void menuscore (void) {
   SDL_Rect positionFond,positionScore,positionDistance;
   TTF_Font *police2 = NULL;
   int dis=0;
-  ecran = SDL_SetVideoMode(840, 680, 32,SDL_HWSURFACE | SDL_DOUBLEBUF); // resolution a revoir
+////////////// MODIFICATION 2 ///////////////////
+  ecran = SDL_SetVideoMode(840,640, 32,SDL_HWSURFACE | SDL_DOUBLEBUF); // resolution a revoir
+////////////// MODIFICATION 2 ///////////////////
   SDL_Color couleurFond = {219,218, 150,0};
   SDL_Color couleurNoir = {0, 0, 0,0};
   char distance[20]="";

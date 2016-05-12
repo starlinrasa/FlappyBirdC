@@ -1,14 +1,13 @@
 #include "header.h"
 
 
+
 void menu (void) {
 
   SDL_Surface *ecran=NULL, *fond=NULL;
   SDL_Rect positionFond;
     
-    
-  ecran = SDL_SetVideoMode(840, 680, 32,SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_RESIZABLE ); // resolution a revoir
-    
+  ecran = SDL_SetVideoMode(840,680, 32,SDL_HWSURFACE | SDL_DOUBLEBUF | SDL_RESIZABLE ); // resolution a revoir
   SDL_Event evente;
     
   positionFond.x=0;

@@ -1,25 +1,14 @@
 #include "header.h"
 
 
-
 void jouer (void) {
   
   int tempsA=0,tempsP=0,regle=0,i=0,dis=0;
   int grav = 0,bonus=0,avant=0;
-enum{
-TYPE_ecran=0,
-TYPE_fond=1,
-TYPE_flap=2,
-TYPE_tuy1=3,
-TYPE_tuy2=4,
-TYPE_dist=5,
-TYPE_texte=6,
-TYPE_crash=7,
-TYPE_score2=8,
-};
+
 SDL_Surface * tabSurface[9];
 
-/////// modification /////
+//////////// MODIFICATION 1 /////////////
 int NBobjet=5;
 int j,k;
 char buf[100];
@@ -30,7 +19,7 @@ posObjet[j].x=rand()%650+150;
 posObjet[j].y=rand()%500+30;
 }
 
-/////// modification /////
+//////////// MODIFICATION 1 /////////////
 
   SDL_Rect positionFond,positionFlap,positionDistance,positionTexte,positionCrash, positionDistance2;
     
@@ -75,17 +64,24 @@ tabSurface[TYPE_ecran] = SDL_SetVideoMode(840, 680, 32,SDL_HWSURFACE | SDL_DOUBL
   police2 = TTF_OpenFont("racer.ttf", 20);
   // flap = IMG_Load("Images/bird1.png");
   
+//////////// MODIFICATION 3 /////////////
 tabSurface[TYPE_fond] = IMG_Load("Images/flappy-bird.png");
 tabSurface[TYPE_tuy1] = IMG_Load("Images/tuy1.png");
 tabSurface[TYPE_tuy2] = IMG_Load("Images/tuy2.png");
 tabSurface[TYPE_score2]= IMG_Load("Images/score2.png");
+//////////// MODIFICATION 3 /////////////
+
+//////////// MODIFICATION 1 /////////////
   objet[0]=IMG_Load("Images/Super_etoile2.png");
   objet[1]=IMG_Load("Images/glace.png");
   objet[2]=IMG_Load("Images/coca.gif");
   objet[3]=IMG_Load("Images/frite.gif");
   objet[4]=IMG_Load("Images/hum.gif");
+
+//////////// MODIFICATION 1 /////////////
+
+
   SDL_BlitSurface(tabSurface[TYPE_fond], NULL, tabSurface[TYPE_ecran], &positionFond);
-  // SDL_BlitSurface(flap, NULL, ecran, &positionFlap);
   SDL_Flip(tabSurface[TYPE_ecran]);
     
   sprintf(distance, "%d", dis);
@@ -213,7 +209,6 @@ tabSurface[TYPE_score2]= IMG_Load("Images/score2.png");
 	    if(grav==0){
 	      positionFlap.y += 10;
 	    }else{
-	      //SDL_Delay(50);
 	      positionFlap.y += 7;
 	     
 	      for (globall.tyx = 0;globall.tyx != TUY ;globall.tyx++) {
@@ -223,11 +218,11 @@ tabSurface[TYPE_score2]= IMG_Load("Images/score2.png");
        
 
 	      }
-//////////// modification /////////////
+//////////// MODIFICATION 1 /////////////
 		int i;
 		for(i=0;i<NBobjet;i++)
 		  posObjet[i].x -=globall.vitesse;
-//////////// modification /////////////
+//////////// MODIFICATION 1 /////////////
 	    
 
 	    }
@@ -236,7 +231,7 @@ tabSurface[TYPE_score2]= IMG_Load("Images/score2.png");
 
 
 
-//////////// modification /////////////
+//////////// MODIFICATION 1 /////////////
 
 	for(j=0;j<NBobjet;j++)
 	if((posObjet[j].x >= positionFlap.x + 45)//droite
@@ -249,9 +244,7 @@ posObjet[j].x=rand()%650+150;
 	posObjet[j].y=rand()%500+30;
 	avant=globall.compteur;
 	bonus=1;
-	//globall.compteur+1;
 	}
-
 
 	for(j=0;j<NBobjet;j++)
 	if(!(posObjet[j].x>=0&&posObjet[j].x<=840)&&(posObjet[j].y>=0&&posObjet[j].y<=680)){
@@ -259,7 +252,9 @@ posObjet[j].x=rand()%650+150;
 		posObjet[j].x=rand()%650+150;
 		posObjet[j].y=rand()%500+30;
 		}
-//////////// modification /////////////
+//////////// MODIFICATION 1 /////////////
+
+
 	if(bonus==1){
 	  Mix_PlayChannel(6, son6, 0);
 	  bonus=0;
@@ -269,13 +264,12 @@ posObjet[j].x=rand()%650+150;
 	  bonus=0;
 	  Mix_PlayChannel(5, son5, 0);
 	}
-
-//////////// modification /////////////
-//printf("pos flap x: %d y: %d\n",positionFlap.x,positionFlap.y);
-//printf("pos x: %d y: %d\n",poss.positiontuy1[globall.compteur].x,poss.positiontuy1[globall.compteur].y); 
-
-
-	if(positionFlap.y>=640 || Collision(positionFlap)==1 || Collision2(positionFlap)==1) {
+/////////
+/// if(bonus==2)
+ 
+/////////////// MODIFICATION 4 /////////////////////
+	if(CollisionGameOver(positionFlap)) {
+/////////////// MODIFICATION 4 /////////////////////
 	    Mix_HaltMusic(); //Arrête la musique
 	    score(globall.compteur);
 	    Mix_PlayChannel(3, son3, 0);
@@ -288,10 +282,16 @@ posObjet[j].x=rand()%650+150;
 	      positionFlap.y=800;
 
 
+////////////// MODIFICATION 5 ///////////////////
 		for(k=0;k<19;k++){
 		memset(buf,0,100);
 		if(k<10)snprintf(buf,100,"Images/00%d.gif",k);
 		else snprintf(buf,100,"Images/0%d.gif",k);
+
+////////////// MODIFICATION 5 ///////////////////
+
+
+////////////// MODIFICATION 3 ///////////////////
 		tabSurface[TYPE_crash] = IMG_Load(buf);
 		if(tabSurface[TYPE_crash]==NULL)fprintf(stderr,"img load err\n");
 	        SDL_BlitSurface(tabSurface[TYPE_crash], NULL, tabSurface[TYPE_ecran], &positionCrash);
@@ -300,17 +300,29 @@ posObjet[j].x=rand()%650+150;
 		}
 	        SDL_BlitSurface(tabSurface[TYPE_fond], NULL, tabSurface[TYPE_ecran], &positionFond);
 		}
+////////////// MODIFICATION 3 ///////////////////
+
 
 	    positionFlap.y=800;
+
+////////////// MODIFICATION 3 ///////////////////
 	    SDL_BlitSurface(tabSurface[TYPE_flap], NULL, tabSurface[TYPE_ecran], &positionFlap);
+////////////// MODIFICATION 3 ///////////////////
+
 	  police = TTF_OpenFont("racer.ttf", 65);
 	    tabSurface[TYPE_texte] = TTF_RenderText_Blended(police, "You Lose !!", couleurRouge);  //Affiche en rouge le texte "You Lose"
        
 	    positionDistance.x=550;
 	    positionDistance.y=400;
         
+
+
+////////////// MODIFICATION 3 ///////////////////
 	    SDL_BlitSurface(tabSurface[TYPE_texte], NULL, tabSurface[TYPE_ecran], &positionTexte);
-       
+////////////// MODIFICATION 3 ///////////////////
+
+
+
 	    sprintf(distance, "%d", dis); /* On Ècrit dans la chaÓne "distance" la nouvelle distance parcouru */
 	    SDL_FreeSurface(tabSurface[TYPE_dist]); /* On supprime la surface prÈcÈdente */
 	    tabSurface[TYPE_dist] = TTF_RenderText_Shaded(police2, distance, couleurNoir,couleurFond); /* On Ècrit la chaÓne distance dans la SDL_Surface */
@@ -333,6 +345,8 @@ posObjet[j].x=rand()%650+150;
 	    globall.flapxh=7;
 	    globall.flapxb=35;
                   
+////////////// MODIFICATION 5 ///////////////////
+	
            for(j=0;j<3;j++)
 	    if(i%3==j){
 		memset(buf,0,100);
@@ -340,12 +354,15 @@ posObjet[j].x=rand()%650+150;
 	      tabSurface[TYPE_flap] = IMG_Load(buf);   
 		assert(tabSurface[TYPE_flap]);    
 	    }
+////////////// MODIFICATION 5 ///////////////////
+
 	    break;
 	  case 2:
 	    globall.flapxg=3;
 	    globall.flapxd=62;
 	    globall.flapxh=6;
 	    globall.flapxb=52;
+////////////// MODIFICATION 5 ///////////////////
            for(j=0;j<10;j++)
 	    if(i%10==j){
 		memset(buf,0,100);
@@ -353,6 +370,7 @@ posObjet[j].x=rand()%650+150;
 	      tabSurface[TYPE_flap] = IMG_Load(buf);      
 		assert(tabSurface[TYPE_flap]);       
 	    }
+////////////// MODIFICATION 5 ///////////////////
 	    break;
 	  case 3:
 	    globall.flapxg=5;
@@ -361,14 +379,18 @@ posObjet[j].x=rand()%650+150;
 	    globall.flapxb=56;
                   
 	    if(i%2==0){
-	      tabSurface[TYPE_flap] = IMG_Load("Images/avion1.png");
-	      // SDL_Delay(50);
+////////////// MODIFICATION 3 ///////////////////
+	        tabSurface[TYPE_flap] = IMG_Load("Images/avion1.png");
+		assert(tabSurface[TYPE_flap]!=NULL);
+////////////// MODIFICATION 3 ///////////////////
                       
 	    }//
                   
 	    if(i%2==1){
-	      tabSurface[TYPE_flap] = IMG_Load("Images/avion2.png");
-	      //SDL_Delay(50);
+////////////// MODIFICATION 3 ///////////////////
+	      	tabSurface[TYPE_flap] = IMG_Load("Images/avion2.png");
+		assert(tabSurface[TYPE_flap]!=NULL);
+////////////// MODIFICATION 3 ///////////////////
 	    }
                   
                   
@@ -378,18 +400,26 @@ posObjet[j].x=rand()%650+150;
 	  default:break;
           }
 
+//////////// MODIFICATION 1 /////////////
 	SDL_BlitSurface(tabSurface[TYPE_fond], NULL, tabSurface[TYPE_ecran], &positionFond);
 	for(j=0;j<NBobjet;j++)
 	SDL_BlitSurface(objet[j], NULL, tabSurface[TYPE_ecran], &posObjet[j]);
-
-
-          
 	SDL_BlitSurface(tabSurface[TYPE_flap], NULL, tabSurface[TYPE_ecran], &positionFlap);
+//////////// MODIFICATION 1 /////////////
+
 	for (globall.tyx = 0;globall.tyx != TUY ;globall.tyx++) {
 	  SDL_Rect temp3 = poss.positiontuy1[globall.tyx];
+
+//////////// MODIFICATION 3 /////////////
 	  SDL_BlitSurface(tabSurface[TYPE_tuy1], NULL, tabSurface[TYPE_ecran], &temp3);
+//////////// MODIFICATION 3 /////////////
+
 	  SDL_Rect temp2 = poss.positiontuy2[globall.tyx];
+
+//////////// MODIFICATION 3 /////////////
 	  SDL_BlitSurface(tabSurface[TYPE_tuy2], NULL, tabSurface[TYPE_ecran], &temp2);
+//////////// MODIFICATION 3 /////////////
+
 	}
 	SDL_Delay(50);
 	SDL_Flip(tabSurface[TYPE_ecran]);
@@ -398,9 +428,11 @@ posObjet[j].x=rand()%650+150;
 
 
     }
-
+//////////// MODIFICATION 1 /////////////
 for(j=0;j<NBobjet;j++)
   SDL_FreeSurface(objet[j]);
+//////////// MODIFICATION 1 /////////////
+
 for(j=0;j<9;j++)
   SDL_FreeSurface(tabSurface[j]);
  

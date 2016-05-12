@@ -1,0 +1,163 @@
+A faire 1:
+Il faut lire des plusieurs objet, les lancer
+
+MODIF 1:
+Dans 'cerveau.c', j'ajoute
+/////////////////////////////////////////////
+int NBobjet=5;
+int j,k;
+char buf[100];
+SDL_Surface *objet[NBobjet];
+SDL_Rect posObjet[NBobjet];
+for(j=0;j<NBobjet;j++){
+posObjet[j].x=rand()%650+150;
+posObjet[j].y=rand()%500+30;
+}
+/////////////////////////////////////////////
+
+
+///////////////////////////////////////////////////
+  objet[0]=IMG_Load("Images/Super_etoile2.png");
+  objet[1]=IMG_Load("Images/glace.png");
+  objet[2]=IMG_Load("Images/coca.gif");
+  objet[3]=IMG_Load("Images/frite.gif");
+  objet[4]=IMG_Load("Images/hum.gif");
+///////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+for(j=0;j<NBobjet;j++)
+  SDL_FreeSurface(objet[j]);
+///////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+SDL_BlitSurface(tabSurface[TYPE_fond], NULL, tabSurface[TYPE_ecran], &positionFond);
+for(j=0;j<NBobjet;j++)
+SDL_BlitSurface(objet[j], NULL, tabSurface[TYPE_ecran], &posObjet[j]);
+SDL_BlitSurface(tabSurface[TYPE_flap], NULL, tabSurface[TYPE_ecran], &positionFlap);
+///////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+ for(j=0;j<NBobjet;j++)
+	if((posObjet[j].x >= positionFlap.x + 45)//droite
+	   || (posObjet[j].x + 30 <= positionFlap.x)//gauche
+	   || (posObjet[j].y >= positionFlap.y + 35)//bas
+	   || (posObjet[j].y + 35 <= positionFlap.y)//haut
+	   ){       
+	} else{
+posObjet[j].x=rand()%650+150;
+	posObjet[j].y=rand()%500+30;
+	avant=globall.compteur;
+	bonus=1;
+	}
+
+	for(j=0;j<NBobjet;j++)
+	if(!(posObjet[j].x>=0&&posObjet[j].x<=840)&&(posObjet[j].y>=0&&posObjet[j].y<=680)){
+
+		posObjet[j].x=rand()%650+150;
+		posObjet[j].y=rand()%500+30;
+		}
+//////////////////////////////////////////////////
+
+///////////////////////////////////////////////////
+int i;	
+for(i=0;i<NBobjet;i++)
+posObjet[i].x -=globall.vitesse;
+///////////////////////////////////////////////////
+
+
+
+
+A faire 3:
+
+Il faut ajouter 'enum' pour charger des plusieurs images dans un tableau de SDL_Surface
+,il manque aussi une assertion apres avoir lu l'image, il faut ajouter les assertions.
+
+MODIF 3:
+
+Dans 'header.h', j'ajoute
+
+/////////////////////////////////////////////////////
+enum{
+TYPE_ecran=0,
+TYPE_fond=1,
+TYPE_flap=2,
+TYPE_tuy1=3,
+TYPE_tuy2=4,
+TYPE_dist=5,
+TYPE_texte=6,
+TYPE_crash=7,
+TYPE_score2=8,
+};
+/////////////////////////////////////////////////////
+
+A faire 4:
+Les fonctions Collision(),Collision1()sont inutilement séparées, il faut
+rassembler dans une fonction
+
+
+MODIF 4: 
+Dans collision.c, j'ajoute 
+
+///////////////////////////////////////////////////
+int CollisionGameOver(SDL_Rect positionFlap) {
+	int res=0;
+	if(!(poss.positiontuy1[globall.compteur].x >= positionFlap.x + globall.flapxd)
+ 	||(poss.positiontuy1[globall.compteur].x + 60 <= positionFlap.x+globall.flapxg)
+  	|| (poss.positiontuy1[globall.compteur].y >= positionFlap.y + globall.flapxb) 
+  	|| (poss.positiontuy1[globall.compteur].y + 385 <= positionFlap.y+globall.flapxh));
+
+	else res++;
+
+	if((poss.positiontuy2[globall.compteur].x >= positionFlap.x + globall.flapxd)
+        || (poss.positiontuy2[globall.compteur].x + 60 <= positionFlap.x+globall.flapxg)
+        || (poss.positiontuy2[globall.compteur].y >= positionFlap.y + globall.flapxb)
+        || (poss.positiontuy2[globall.compteur].y +400 <= positionFlap.y)
+        );
+	else res++;
+
+  return res!=0?1:0;
+}
+
+///////////////////////////////////////////////////
+
+
+
+A faire 5:
+
+les lignes pour lire les sprites occupent inutilement la ligne,
+il faut simplifier avec un boucle 
+
+
+MODIF 5:
+
+Dans le cerveau.c, j'ajoute
+
+/////////////////////////////////////////////////////
+           for(j=0;j<3;j++)
+	    if(i%3==j){
+		memset(buf,0,100);
+		snprintf (buf, 100,"Images/bird%d.png", j+1);
+	      tabSurface[TYPE_flap] = IMG_Load(buf);   
+		assert(tabSurface[TYPE_flap]);    
+	    }
+/////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////
+           for(j=0;j<10;j++)
+	    if(i%10==j){
+		memset(buf,0,100);
+		snprintf (buf, 100,"Images/dragon%d.png", j+1);
+	      tabSurface[TYPE_flap] = IMG_Load(buf);      
+		assert(tabSurface[TYPE_flap]);       
+	    }
+/////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////
+		for(k=0;k<19;k++){
+		memset(buf,0,100);
+		if(k<10)snprintf(buf,100,"Images/00%d.gif",k);
+		else snprintf(buf,100,"Images/0%d.gif",k);
+/////////////////////////////////////////////////////
+

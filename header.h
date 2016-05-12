@@ -58,3 +58,19 @@ struct pos{
 typedef struct pos Position;
 
 Position poss;
+
+
+////////////// MODIFICATION 3 ///////////////////
+enum{
+TYPE_ecran=0,
+TYPE_fond=1,
+TYPE_flap=2,
+TYPE_tuy1=3,
+TYPE_tuy2=4,
+TYPE_dist=5,
+TYPE_texte=6,
+TYPE_crash=7,
+TYPE_score2=8,
+};
+////////////// MODIFICATION 3 ///////////////////
+

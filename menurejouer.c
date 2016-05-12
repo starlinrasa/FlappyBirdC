@@ -1,14 +1,15 @@
 #include "header.h"
 
 
+
+
 void menujouer (void) { 
   SDL_Surface *ecran=NULL, *fond=NULL;
   SDL_Rect positionFond;
   int finnn=0;
-    
-    
-  ecran = SDL_SetVideoMode(840, 680, 32,SDL_HWSURFACE | SDL_DOUBLEBUF); // resolution a revoir
-    
+   
+  ecran = SDL_SetVideoMode(840,680, 32,SDL_HWSURFACE | SDL_DOUBLEBUF); // resolution a revoir
+
   SDL_Event evente;
     
   positionFond.x=0;

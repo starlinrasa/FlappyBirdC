@@ -1,5 +1,6 @@
 #include "header.h"
 
+
 void menuoption (void) {
   SDL_Surface *ecran=NULL, *fond=NULL,*dragon=NULL,*flap = NULL,*avion= NULL,*son=NULL,*cadre=NULL;
   SDL_Rect positionFond,positionFlap,positionDragon,positionAvion,positionSon,positionCadre;
